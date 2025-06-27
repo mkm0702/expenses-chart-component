@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spending Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f2ed;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, hsl(10, 79%, 65%), #d2423a);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(232, 90, 79, 0.3);
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .balance-label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+       .balance-icon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       }
+
+        .spending-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .spending-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .bar {
+            width: 35px;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bar:hover {
+            transform: translateY(-5px);
+        }
+
+        .bar.coral {
+            background: linear-gradient(180deg, hsl(10, 79%, 65%), #d2423a);
+        }
+
+        .bar.teal {
+            background: linear-gradient(180deg, #4ecdc4, #44b3ac);
+        }
+
+        .day-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .amount-tooltip {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c2c2c;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .amount-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: #2c2c2c;
+        }
+
+        .bar:hover .amount-tooltip {
+            opacity: 1;
+        }
+
+        .total-section {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 25px;
+        }
+
+        .total-label {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c2c2c;
+        }
+
+        .percentage-change {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .percentage {
+            font-size: 16px;
+            font-weight: 600;
+            color: #22c55e;
+            margin-bottom: 4px;
+        }
+
+        .percentage-label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        
+        @media (max-width: 480px) {
+            .dashboard {
+                max-width: 100%;
+            }
+            
+            .balance-card, .spending-card {
+                padding: 20px;
+            }
+            
+            .balance-amount {
+                font-size: 28px;
+            }
+            
+            .spending-title {
+                font-size: 20px;
+            }
+            
+            .bar {
+                width: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Balance Card -->
+        <div class="balance-card">
+          <div>
+            <div class="balance-label">My balance</div>
+            <div class="balance-amount" id="balance">$921.48</div>
+          </div>
+            
+            <div class="balance-icon"><img src="images/logo.svg" alt=""></div>
+        </div>
+
+        <!-- Spending Card -->
+        <div class="spending-card">
+            <h2 class="spending-title">Spending - Last 7 days</h2>
+            
+            <!-- Chart -->
+            <div class="chart-container" id="chart">
+                <!-- <div class="bar coral" data-day="mon" data-amount="$20.50">
+                    <div class="amount-tooltip">$20.50</div>
+                    <div class="day-label">mon</div>
+                </div> -->
+               
+            </div>
+
+            <!-- Total Section -->
+            <div class="total-section">
+                <div class="total-label">Total this month</div>
+                <div class="total-row">
+                    <div class="total-amount" id="totalAmount">$478.33</div>
+                    <div class="percentage-change">
+                        <div class="percentage" id="percentage">+2.4%</div>
+                        <div class="percentage-label">from last month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="index.js"></script>
+</body>
+</html>
