@@ -32,8 +32,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [Github](https://github.com/mkm0702/expenses-chart-component)
+- Live Site URL: [Netlify](https://expenses-chart-component-sol.netlify.app/)
 
 
 ### Built with
@@ -45,6 +45,5 @@ Users should be able to:
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
 - Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/mkm0702)
 - Twitter - [@yourusername](https://www.twitter.com/mkm0702_)
